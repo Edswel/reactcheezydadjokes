@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './JokeLists.css';
+import Joke from './joke/Joke';
 
 function JokeLists({ numJokesToGet = 10 }) {
     const [jokes, setJokes] = useState([]);
@@ -11,7 +12,7 @@ function JokeLists({ numJokesToGet = 10 }) {
                 let jokes = [];
                 while (jokes.length < numJokesToGet) {
                     let res = await axios.get("https://icanhazdadjoke.com/", { headers: { Accept: 'application/json' } });
-                    jokes.push(res.data.joke);
+                    jokes.push({ text: res.data.joke, votes: 0 });
                 }
                 setJokes(jokes);
             } catch (error) {
@@ -31,7 +32,7 @@ function JokeLists({ numJokesToGet = 10 }) {
 
             <div className='Container-jokes'>
                 {jokes.map((joke) => (
-                    <div key={joke}>{joke}</div>
+                    <Joke votes={joke.votes} text={joke.text} />
                 ))}
             </div>
         </div>
