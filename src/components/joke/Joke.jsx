@@ -11,6 +11,7 @@ function Joke({ votes, text, upVote, downVote }) {
                 <i className='fas fa-thumbs-down' onClick={downVote}></i>
             </div>
             <div className='Joke-text'>{text}</div>
+            <div className='Joke-smiley'><i className='em em-rolling_on_the_floor_laughing' /></div>
         </div>
     )
 }
