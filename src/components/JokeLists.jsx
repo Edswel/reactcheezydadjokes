@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 import './JokeLists.css';
 import Joke from './joke/Joke';
 
 function JokeLists({ numJokesToGet = 10 }) {
     const [jokes, setJokes] = useState([]);
+    const [points, setPoints] = useState(0);
 
     useEffect(() => {
         async function getJokes() {
@@ -12,7 +14,7 @@ function JokeLists({ numJokesToGet = 10 }) {
                 let jokes = [];
                 while (jokes.length < numJokesToGet) {
                     let res = await axios.get("https://icanhazdadjoke.com/", { headers: { Accept: 'application/json' } });
-                    jokes.push({ text: res.data.joke, votes: 0 });
+                    jokes.push({ id: uuidv4(), text: res.data.joke, votes: points });
                 }
                 setJokes(jokes);
             } catch (error) {
@@ -21,6 +23,8 @@ function JokeLists({ numJokesToGet = 10 }) {
         }
         getJokes();
     }, []);
+
+    function handleVotes(id, delta) { }
 
     return (
         <div className='Container'>
@@ -32,9 +36,10 @@ function JokeLists({ numJokesToGet = 10 }) {
 
             <div className='Container-jokes'>
                 {jokes.map((joke) => (
-                    <Joke votes={joke.votes} text={joke.text} />
+                    <Joke key={joke.id} votes={joke.votes} text={joke.text} upVote={() => handleVotes(joke.id, 1)} downVote={() => handleVotes(joke.id, -1)} />
                 ))}
             </div>
+
         </div>
     )
 }

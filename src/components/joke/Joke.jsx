@@ -1,12 +1,14 @@
 import React from 'react';
+import './Joke.css';
 
-function Joke({ votes, text }) {
+function Joke({ votes, text, upVote, downVote }) {
+
     return (
         <div className='Joke'>
             <div className='Joke-buttons'>
-                <i className='fas fa-thumbs-up'></i>
-                <span>{votes}</span>
-                <i className='fas fa-thumbs-down'></i>
+                <i className='fas fa-thumbs-up' onClick={upVote}></i>
+                <span className='Joke-votes'>{votes}</span>
+                <i className='fas fa-thumbs-down' onClick={downVote}></i>
             </div>
             <div className='Joke-text'>{text}</div>
         </div>
